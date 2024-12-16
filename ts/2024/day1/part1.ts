@@ -1,5 +1,5 @@
 // ADC 2024
-// Day 1 - Answer: 2769675
+// Day 1 / Part 1 - Answer: 2769675
 
 const inputText = Deno.readTextFileSync("input.txt");
 const inputLines = inputText.split("\n");
