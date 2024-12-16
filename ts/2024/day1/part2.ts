@@ -16,13 +16,17 @@ rightList.sort();
 let totalSimilarityScore: number = 0;
 leftList.forEach(
     (leftNumber) => {
-        totalSimilarityScore += rightList.reduce((count, rightNumber) => {
-            if (rightNumber === leftNumber) {
-                return count + 1;
+        let count: number = 0;
+        for (let i = 0; i < rightList.length; i++) {
+            if (rightList[i] === leftNumber) {
+                count++;
             } else {
-                return count;
+                if (rightList[i] > leftNumber) {
+                    break;
+                }
             }
-        }, 0) * leftNumber;
+        }
+        totalSimilarityScore += leftNumber * count;
     },
 );
 console.log("Total Similarity score:", totalSimilarityScore);
