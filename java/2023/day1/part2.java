@@ -1,8 +1,10 @@
-// Day 1 - Answer : 55712
+// Day 1 - Answer : 55413
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.*;
 
 public class part2 {
     public static void main(String[] args) {
@@ -10,48 +12,37 @@ public class part2 {
         int[] results = new int[10000];
         try {
             BufferedReader reader = new BufferedReader(
-                    new FileReader("/Users/sahil/Developer/ADC/java/day1/src/input.txt"));
+                    new FileReader("input.txt"));
             String line;
+            ArrayList<Integer> digits = new ArrayList<Integer>(100);
             while ((line = reader.readLine()) != null) {
-                char[] chars = line.toCharArray();
-                char ch;
+                digits.clear();
+                int digit;
                 for (int i = 0; i < line.length(); i++) {
-                    ch = chars[i];
-                    if (Character.isDigit(ch)) {
-                        firstNum = Character.getNumericValue(ch);
-                        break;
-                    } else {
-                        // String subString = line.substring(i, i + 3);
-                        // if (subString.matches("one|two|six"))
-                        // ;
-                        if (ch == 'o') {
-                            if (chars[i + 1] == 'n') {
-                                if (chars[i + 2] == 'e') {
-                                    firstNum = 1;
-                                    break;
-                                }
-                            }
-                        } else if (ch == 't') {
-                            if (chars[i + 1] == 'w') {
-                                if (chars[i + 2] == 'o') {
-                                    firstNum = 2;
-                                    break;
-                                }
-                            } else if (chars[i + 1] == 'h') {
-                                if (line.substring(i, i + 5).equals("three")) {
-                                    firstNum = 3;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                    String substring = line.substring(i);
+                    Pattern pattern = Pattern.compile("^(one|two|three|four|five|six|seven|eight|nine|\\d)");
+                    Matcher matcher = pattern.matcher(substring);
+                    while (matcher.find()) {
 
-                for (int i = line.length() - 1; i >= 0; i--) {
-                    ch = chars[i];
-                    if (Character.isDigit(ch)) {
-                        lastNum = Character.getNumericValue(ch);
-                        break;
+                        String strdig = matcher.group();
+                        System.out.println(strdig);
+                        digit = switch (strdig) {
+                            case "one" -> 1;
+                            case "two" -> 2;
+                            case "three" -> 3;
+                            case "four" -> 4;
+                            case "five" -> 5;
+                            case "six" -> 6;
+                            case "seven" -> 7;
+                            case "eight" -> 8;
+                            case "nine" -> 9;
+                            default -> Integer.parseInt(strdig);
+                        };
+                        digits.add(digit);
+                    }
+                    if (!digits.isEmpty()) {
+                        firstNum = digits.getFirst(); // First digit
+                        lastNum = digits.getLast();
                     }
                 }
                 results[index++] = firstNum * 10 + lastNum;
